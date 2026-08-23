@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Humantech | Loja de Robótica (Projeto Escolar)</title>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Arial, sans-serif;
+    }
+
+    body {
+        background: #0d1b2a;
+        color: #fff;
+        min-height: 100vh;
+    }
+
+    /* AVISO */
+    .aviso {
+        background: #ff1744;
+        color: #fff;
+        text-align: center;
+        padding: 10px;
+        font-weight: bold;
+        font-size: 0.9em;
+        letter-spacing: 1px;
+    }
+
+    /* HEADER */
+    header {
+        background: #102a43;
+        padding: 15px 30px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        box-shadow: 0 4px 15px rgba(0,255,255,0.2);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    .logo {
+        font-size: 1.8em;
+        font-weight: bold;
+        color: #00e5ff;
+        text-shadow: 0 0 15px #00e5ff;
+    }
+
+    nav {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    nav a {
+        color: #cfd8dc;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s;
+    }
+
+    nav a:hover {
+        color: #00e5ff;
+    }
+
+    .search-box {
+        display: flex;
+        align-items: center;
+        background: #fff;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    .search-box input {
+        border: none;
+        padding: 8px 15px;
+        outline: none;
+        font-size: 0.9em;
+        width: 180px;
+    }
+
+    .search-box button {
+        border: none;
+        background: #00e5ff;
+        padding: 8px 15px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .cart-icon {
+        position: relative;
+        cursor: pointer;
+        font-size: 1.5em;
+        color: #00e5ff;
+    }
+
+    .cart-count {
+        position: absolute;
+        top: -8px;
+        right: -10px;
+        background: #ff1744;
+        color: #fff;
+        font-size: 0.6em;
+        padding: 3px 7px;
+        border-radius: 50%;
+        font-weight: bold;
+    }
+
+    /* BANNER */
+    .banner {
+        background: linear-gradient(135deg, #1b263b, #415a77);
+        text-align: center;
+        padding: 60px 20px;
+    }
+
+    .banner h1 {
+        font-size: 2.8em;
+        color: #00e5ff;
+        text-shadow: 0 0 20px #00e5ff;
+    }
+
+    .banner p {
+        margin-top: 15px;
+        font-size: 1.2em;
+        color: #cfd8dc;
+    }
+
+    /* CATEGORIAS */
+    .categorias {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        padding: 30px 20px;
+        background: #0d1b2a;
+    }
+
+    .categoria-btn {
+        background: #1b263b;
+        border: 1px solid #00e5ff;
+        color: #00e5ff;
+        padding: 10px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .categoria-btn:hover, .categoria-btn.active {
+        background: #00e5ff;
+        color: #0d1b2a;
+    }
+
+    /* PRODUTOS */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .produtos {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 25px;
+        margin-top: 20px;
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(0, 255, 255, 0.3);
+        border-radius: 15px;
+        padding: 20px;
+        text-align: center;
+        backdrop-filter: blur(10px);
+        transition: transform 0.3s, box-shadow 0.3s;
+        position: relative;
+    }
+
+    .card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 10px 25px rgba(0, 255, 255, 0.4);
+    }
+
+    .card .icon {
+        font-size: 3em;
+        margin-bottom: 10px;
+    }
+
+    .card h3 {
+        font-size: 1.1em;
+        margin-bottom: 8px;
+    }
+
+    .card .preco {
+        font-size: 1.3em;
+        font-weight: bold;
+        color: #00e5ff;
+    }
+
+    .frete {
+        margin-top: 6px;
+        font-size: 0.85em;
+        color: #b2ebf2;
+        background: rgba(0, 229, 255, 0.1);
+        padding: 4px 10px;
+        border-radius: 10px;
+        display: inline-block;
+    }
+
+    .selo {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #ff1744;
+        color: #fff;
+        font-size: 0.65em;
+        padding: 3px 8px;
+        border-radius: 10px;
+        font-weight: bold;
+    }
+
+    .btn-add {
+        margin-top: 15px;
+        display: inline-block;
+        padding: 10px 20px;
+        background: #00e5ff;
+        color: #0d1b2a;
+        border: none;
+        border-radius: 30px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    .btn-add:hover {
+        background: #00b8d4;
+    }
+
+    /* CARRINHO MODAL */
+    .cart-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 350px;
+        max-width: 90%;
+        height: 100%;
+        background: #102a43;
+        box-shadow: -5px 0 20px rgba(0,0,0,0.5);
+        z-index: 200;
+        flex-direction: column;
+        padding: 20px;
+        overflow-y: auto;
+    }
+
+    .cart-modal.active {
+        display: flex;
+    }
+
+    .cart-modal h2 {
+        color: #00e5ff;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .close-cart {
+        cursor: pointer;
+        font-size: 1.3em;
+        color: #ff1744;
+    }
+
+    .cart-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255,255,255,0.05);
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+    }
+
+    .cart-item .remove-item {
+        color: #ff1744;
+        cursor: pointer;
+        font-weight: bold;
+        margin-left: 10px;
+    }
+
+    .cart-total {
+        margin-top: 20px;
+        border-top: 1px solid rgba(255,255,255,0.2);
+        padding-top: 15px;
+        font-size: 1.1em;
+    }
+
+    .cart-total div {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+    }
+
+    .btn-checkout {
+        margin-top: 20px;
+        width: 100%;
+        padding: 12px;
+        background: #00e5ff;
+        color: #0d1b2a;
+        border: none;
+        border-radius: 30px;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 1em;
+    }
+
+    .btn-checkout:hover {
+        background: #00b8d4;
+    }
+
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.6);
+        z-index: 150;
+    }
+
+    .overlay.active {
+        display: block;
+    }
+
+    /* FOOTER */
+    footer {
+        background: #102a43;
+        padding: 40px 20px;
+        margin-top: 60px;
+    }
+
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 30px;
+    }
+
+    .footer-content h4 {
+        color: #00e5ff;
+        margin-bottom: 15px;
+    }
+
+    .footer-content p, .footer-content a {
+        color: #cfd8dc;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 0.9em;
+    }
+
+    .footer-content a:hover {
+        color: #00e5ff;
+    }
+
+    .pagamentos {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+    }
+
+    .pagamentos span {
+        background: rgba(255,255,255,0.1);
+        padding: 5px 10px;
+        border-radius: 8px;
+        font-size: 0.8em;
+    }
+
+    .copyright {
+        text-align: center;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        color: #78909c;
+        font-size: 0.85em;
+    }
+
+    .copyright span {
+        color: #00e5ff;
+    }
+</style>
+</head>
+<body>
+
+<div class="aviso">
+    ⚠️ SITE FICTÍCIO — Projeto Escolar. Nenhuma compra real pode ser realizada.
+</div>
+
+<header>
+    <div class="logo">🤖 HUMANTECH</div>
+    <nav>
+        <a href="#inicio">Início</a>
+        <a href="#produtos">Produtos</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#contato">Contato</a>
+    </nav>
+    <div class="search-box">
+        <input type="text" placeholder="Buscar produtos...">
+        <button>🔍</button>
+    </div>
+    <div class="cart-icon" onclick="toggleCart()">
+        🛒
+        <span class="cart-count" id="cart-count">0</span>
+    </div>
+</header>
+
+<section class="banner" id="inicio">
+    <h1>O Futuro da Robótica Humanoide</h1>
+    <p>Explore nossa linha completa de robôs, softwares e peças — Vitrine ilustrativa para fins educacionais.</p>
+</section>
+
+<div class="categorias">
+    <button class="categoria-btn active" onclick="filtrar('todos', this)">Todos</button>
+    <button class="categoria-btn" onclick="filtrar('robo', this)">Robôs</button>
+    <button class="categoria-btn" onclick="filtrar('software', this)">Softwares</button>
+    <button class="categoria-btn" onclick="filtrar('peca', this)">Peças</button>
+    <button class="categoria-btn" onclick="filtrar('acessorio', this)">Acessórios</button>
+    <button class="categoria-btn" onclick="filtrar('servico', this)">Serviços</button>
+</div>
+
+<div class="container" id="produtos">
+    <div class="produtos" id="produtos-lista"></div>
+</div>
+
+<!-- OVERLAY E CARRINHO -->
+<div class="overlay" id="overlay" onclick="toggleCart()"></div>
+<div class="cart-modal" id="cart-modal">
+    <h2>🛒 Seu Carrinho <span class="close-cart" onclick="toggleCart()">✖</span></h2>
+    <div id="cart-items">
+        <p style="color:#90a4ae;">Seu carrinho está vazio.</p>
+    </div>
+    <div class="cart-total" id="cart-total" style="display:none;">
+        <div><span>Subtotal:</span><span id="subtotal">R$ 0,00</span></div>
+        <div><span>Frete:</span><span id="frete-total">R$ 0,00</span></div>
+        <div><strong>Total:</strong><strong id="total-geral">R$ 0,00</strong></div>
+    </div>
+    <button class="btn-checkout" onclick="finalizarCompra()">Finalizar Compra</button>
+</div>
+
+<footer id="contato">
+    <div class="footer-content">
+        <div>
+            <h4>Humantech</h4>
+            <p>Loja fictícia criada para fins de projeto escolar sobre e-commerce e robótica.</p>
+        </div>
+        <div>
+            <h4>Links Rápidos</h4>
+            <a href="#inicio">Início</a>
+            <a href="#produtos">Produtos</a>
+            <a href="#sobre">Sobre Nós</a>
+        </div>
+        <div>
+            <h4>Contato (Fictício)</h4>
+            <p>📍 Rua da Robótica, 123 - Cidade Fictícia</p>
+            <p>📞 (00) 0000-0000</p>
+            <p>✉️ contato@humantech.fake</p>
+        </div>
+        <div>
+            <h4>Formas de Pagamento (Ilustrativo)</h4>
+            <div class="pagamentos">
+                <span>💳 Cartão</span>
+                <span>💰 Pix</span>
+                <span>🏦 Boleto</span>
+            </div>
+        </div>
+    </div>
+    <div class="copyright">
+        <p>&copy; 2025 <span>Humantech</span> — Projeto Escolar. Nenhum produto é vendido de verdade.</p>
+    </div>
+</footer>
+
+<script>
+const produtos = [
+    { nome: "Robô Humanoide", preco: 837.49, icon: "🤖", categoria: "robo" },
+    { nome: "Software de Ativação", preco: 199.99, icon: "💾", categoria: "software" },
+    { nome: "Software de Manutenção", preco: 99.99, icon: "🛠️", categoria: "software" },
+    { nome: "Avatar", preco: 95.34, icon: "👤", categoria: "acessorio" },
+    { nome: "Braço (Reposição)", preco: 150.00, icon: "💪", categoria: "peca" },
+    { nome: "Perna (Reposição)", preco: 150.00, icon: "🦿", categoria: "peca" },
+    { nome: "Chip (Reposição)", preco: 150.00, icon: "🔧", categoria: "peca" },
+    { nome: "Serviço de Montagem/Desmontagem", preco: 187.35, icon: "⚙️", categoria: "servico" },
+    { nome: "Bateria", preco: 50.00, icon: "🔋", categoria: "acessorio" },
+    { nome: "Carregador", preco: 40.00, icon: "🔌", categoria: "acessorio" }
+];
+
+function calcularFrete(preco) {
+    if (preco <= 50) return 25.00;
+    if (preco <= 150) return 20.00;
+    if (preco <= 300) return 15.00;
+    return 0.00;
+}
+
+function renderizarProdutos(filtro = 'todos') {
+    const lista = document.getElementById('produtos-lista');
+    lista.innerHTML = '';
+    produtos
+        .filter(p => filtro === 'todos' || p.categoria === filtro)
+        .forEach((produto, index) => {
+            const frete = calcularFrete(produto.preco);
+            const freteTexto = frete === 0 ? "🚚 Frete Grátis" : `🚚 Frete: R$ ${frete.toFixed(2).replace('.', ',')}`;
+            const card = document.createElement('div');
+            card.classList.add('card');
+            card.innerHTML = `
+                <span class="selo">Não à venda</span>
+                <div class="icon">${produto.icon}</div>
+                <h3>${produto.nome}</h3>
+                <div class="preco">R$ ${produto.preco.toFixed(2).replace('.', ',')}</div>
+                <div class="frete">${freteTexto}</div><br>
+                <button class="btn-add" onclick="adicionarCarrinho(${produtos.indexOf(produto)})">Adicionar ao Carrinho</button>
+            `;
+            lista.appendChild(card);
+        });
+}
+
+function filtrar(categoria, btn) {
+    document.querySelectorAll('.categoria-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderizarProdutos(categoria);
+}
+
+let carrinho = [];
+
+function adicionarCarrinho(index) {
+    const produto = produtos[index];
+    carrinho.push(produto);
+    atualizarCarrinho();
+}
+
+function removerCarrinho(index) {
+    carrinho.splice(index, 1);
+    atualizarCarrinho();
+}
+
+function atualizarCarrinho() {
+    const cartItems = document.getElementById('cart-items');
+    const cartCount = document.getElementById('cart-count');
+    const cartTotal = document.getElementById('cart-total');
+    cartCount.textContent = carrinho.length;
+
+    if (carrinho.length === 0) {
+        cartItems.innerHTML = `<p style="color:#90a4ae;">Seu carrinho está vazio.</p>`;
+        cartTotal.style.display = 'none';
+        return;
+    }
+
+    cartItems.innerHTML = '';
+    let subtotal = 0;
+    let freteTotal = 0;
+
+    carrinho.forEach((item, index) => {
+        const frete = calcularFrete(item.preco);
+        subtotal += item.preco;
+        freteTotal += frete;
+        cartItems.innerHTML += `
+            <div class="cart-item">
+                <span>${item.icon} ${item.nome} - R$ ${item.preco.toFixed(2).replace('.', ',')}</span>
+                <span class="remove-item" onclick="removerCarrinho(${index})">✖</span>
+            </div>
+        `;
+    });
+
+    cartTotal.style.display = 'block';
+    document.getElementById('subtotal').textContent = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+    document.getElementById('frete-total').textContent = `R$ ${freteTotal.toFixed(2).replace('.', ',')}`;
+    document.getElementById('total-geral').textContent = `R$ ${(subtotal + freteTotal).toFixed(2).replace('.', ',')}`;
+}
+
+function toggleCart() {
+    document.getElementById('cart-modal').classList.toggle('active');
+    document.getElementById('overlay').classList.toggle('active');
+}
+
+function finalizarCompra() {
+    alert("🚫 Este é apenas um projeto escolar!\n\nNenhuma compra pode ser finalizada de verdade neste site. Esta é apenas uma demonstração de e-commerce.");
+}
+
+renderizarProdutos();
+</script>
+
+</body>
+</html>
